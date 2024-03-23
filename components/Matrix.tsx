@@ -43,7 +43,8 @@ export function Matrix({
 
   const columnDefs = sortedOccurrencies.map((item) => ({
     field: item,
-    width: 100,
+    width: 150,
+    headerTooltip: item,
     comparator: (valueA: string, valueB: string) =>
       semverCompare(
         valueA?.replaceAll(/[^(\d|.)]/g, '') || '',

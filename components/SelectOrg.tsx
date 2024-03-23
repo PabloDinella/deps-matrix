@@ -1,7 +1,7 @@
 'use client';
 
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { useCreateQueryString } from './hooks/useCreateQueryString';
+import { useCreateQueryString } from '../hooks/useCreateQueryString';
 
 export function SelectOrg({
   orgs,
