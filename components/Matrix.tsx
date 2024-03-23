@@ -1,11 +1,8 @@
 'use client';
 
-import { Table } from '@mantine/core';
-
-import { AgGridReact } from 'ag-grid-react'; // AG Grid Component
-import 'ag-grid-community/styles/ag-grid.css'; // Mandatory CSS required by the grid
-import 'ag-grid-community/styles/ag-theme-quartz.css'; // Optional Theme applied to the grid
-import { useState } from 'react';
+import { AgGridReact } from 'ag-grid-react';
+import 'ag-grid-community/styles/ag-grid.css';
+import 'ag-grid-community/styles/ag-theme-quartz.css';
 import semverCompare from 'semver-compare';
 
 export function Matrix({
@@ -16,37 +13,6 @@ export function Matrix({
     packageJson: { dependencies: Record<string, string> };
   }[];
 }) {
-  console.log(reposAndPackageJsons);
-
-  // const rows = reposAndPackageJsons.map((item) => (
-  //   <Table.Tr key={item?.repo.id}>
-  //     <Table.Td>{item?.repo.name}</Table.Td>
-  //     {Object.entries(item.packageJson.dependencies).map(([depName, depVersion]) => (
-  //       <Table.Td key={depName}>
-  //         {depName} {depVersion}
-  //       </Table.Td>
-  //     ))}
-  //     {/* <Table.Td>{item.name}</Table.Td>
-  //     <Table.Td>{item.symbol}</Table.Td>
-  //     <Table.Td>{item.mass}</Table.Td> */}
-  //   </Table.Tr>
-  // ));
-
-  // Row Data: The data to be displayed.
-  // const [rowData, setRowData] = useState([
-  //   { make: 'Tesla', model: 'Model Y', price: 64950, electric: true },
-  //   { make: 'Ford', model: 'F-Series', price: 33850, electric: false },
-  //   { make: 'Toyota', model: 'Corolla', price: 29600, electric: false },
-  // ]);
-
-  // // Column Definitions: Defines the columns to be displayed.
-  // const [colDefs, setColDefs] = useState([
-  //   { field: 'make' },
-  //   { field: 'model' },
-  //   { field: 'price' },
-  //   { field: 'electric' },
-  // ]);
-
   const rowData: Record<string, string>[] = reposAndPackageJsons.map((item) => ({
     repoName: item.repo.name,
     ...item.packageJson.dependencies,
@@ -85,41 +51,20 @@ export function Matrix({
       ),
   }));
 
-  console.log({ occurrencies, sortedOccurrencies });
-
   return (
     <div
       className="ag-theme-quartz" // applying the grid theme
-      style={{ height: 500 }} // the grid will fill the size of the parent container
     >
       <AgGridReact
+        domLayout="autoHeight"
+        sortingOrder={['desc']}
         rowData={rowData}
         columnDefs={[
           { field: 'repoName' },
           { ...columnDefs[0], sort: 'desc' },
           ...columnDefs.slice(1),
         ]}
-        // autoSizeStrategy={{ type: 'fitCellContents', skipHeader: true, colIds: sortedOccurrencies }}
       />
     </div>
   );
-
-  // return (
-
-  //   <Table>
-  //     <Table.Thead>
-  //       <Table.Tr>
-  //         <Table.Th>Repo Name</Table.Th>
-  //         <Table.Th>Repo Name</Table.Th>
-  //       </Table.Tr>
-  //     </Table.Thead>
-  //     <Table.Tbody>{rows}</Table.Tbody>
-  //   </Table>
-  // );
 }
-
-// function calc(head: Record<string, string>, tail: any[]) {
-//   const a = Object.keys(head);
-
-//   a.
-// }

@@ -2866,7 +2866,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@octokit/auth-app@npm:^6.0.0":
+"@octokit/auth-app@npm:^6.0.0, @octokit/auth-app@npm:^6.0.4":
   version: 6.0.4
   resolution: "@octokit/auth-app@npm:6.0.4"
   dependencies:
@@ -12364,6 +12364,7 @@ __metadata:
     "@mantine/hooks": "npm:7.6.1"
     "@next/bundle-analyzer": "npm:^14.1.3"
     "@next/eslint-plugin-next": "npm:^14.1.3"
+    "@octokit/auth-app": "npm:^6.0.4"
     "@storybook/addon-essentials": "npm:^8.0.0"
     "@storybook/addon-styling-webpack": "npm:^0.0.6"
     "@storybook/blocks": "npm:^8.0.0"
