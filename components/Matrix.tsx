@@ -62,7 +62,7 @@ export function Matrix({
         sortingOrder={['desc']}
         rowData={rowData}
         columnDefs={[
-          { field: 'repoName' },
+          { field: 'repoName', pinned: 'left' },
           { ...columnDefs[0], sort: 'desc' },
           ...columnDefs.slice(1),
         ]}
