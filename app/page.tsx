@@ -1,7 +1,7 @@
 import { Octokit } from 'octokit';
 import { createAppAuth } from '@octokit/auth-app';
 import { redirect } from 'next/navigation';
-import { Box, Container, Flex, Text, Title, getSpacing } from '@mantine/core';
+import { Container, Flex, Text, Title } from '@mantine/core';
 import dynamic from 'next/dynamic';
 import { Matrix } from '@/components/Matrix';
 import { SelectOrg } from '@/components/SelectOrg';
@@ -9,7 +9,6 @@ import { getUser } from '@/data/getUser';
 import { getOrgs } from '@/data/getOrgs';
 import { getReposAndPackageJsons } from '@/data/getReposAndPackageJsons';
 import { AuthenticationLink } from '@/components/AuthenticationLink';
-import { CookieComponent } from '@/components/CookieComponent';
 import { decrypt, encrypt } from '@/functions/crypt';
 
 const GithubStar = dynamic(() => import('@/components/GithubStar'), { ssr: false });
@@ -62,8 +61,6 @@ export default async function HomePage({ searchParams }: { searchParams: PageQue
 
   return (
     <>
-      <CookieComponent />
-
       <Container>
         <Flex my={15} justify="flex-end">
           <Text ta="right" mt={3} mr={10}>
