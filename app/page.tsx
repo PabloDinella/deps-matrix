@@ -1,13 +1,18 @@
 import { Octokit } from 'octokit';
 import { createAppAuth } from '@octokit/auth-app';
 import { redirect } from 'next/navigation';
+import { Box, Container, Flex, Text, Title, getSpacing } from '@mantine/core';
+import dynamic from 'next/dynamic';
 import { Matrix } from '@/components/Matrix';
 import { SelectOrg } from '@/components/SelectOrg';
 import { getUser } from '@/data/getUser';
 import { getOrgs } from '@/data/getOrgs';
 import { getReposAndPackageJsons } from '@/data/getReposAndPackageJsons';
 import { AuthenticationLink } from '@/components/AuthenticationLink';
-import { Container, Text, Title } from '@mantine/core';
+import { CookieComponent } from '@/components/CookieComponent';
+import { decrypt, encrypt } from '@/functions/crypt';
+
+const GithubStar = dynamic(() => import('@/components/GithubStar'), { ssr: false });
 
 const appAuth = createAppAuth({
   appId: JSON.parse(process.env.APP_ID || ''),
@@ -16,21 +21,28 @@ const appAuth = createAppAuth({
   clientSecret: process.env.CLIENT_SECRET,
 });
 
-export default async function HomePage({
-  searchParams,
-}: {
-  searchParams: { code: string; token: string; org: string };
-}) {
-  const { code, token, org } = searchParams;
+type PageQueryString = { code: string; etoken: string; org: string; iv: string };
 
-  if (!token && code) {
+export default async function HomePage({ searchParams }: { searchParams: PageQueryString }) {
+  const { code, etoken, org, iv } = searchParams;
+
+  if ((!etoken || !iv) && code) {
     const authentication = (await appAuth({
       type: 'oauth-user',
       code: searchParams.code,
     })) as { token: string };
 
-    return redirect(`/?token=${authentication.token}`);
+    const encrypted = encrypt(authentication.token);
+
+    const queryString = new URLSearchParams({
+      etoken: encrypted.ciphertext,
+      iv: encrypted.iv,
+    } satisfies Partial<PageQueryString>);
+
+    return redirect(`/?${queryString.toString()}`);
   }
+
+  const token = etoken && iv ? decrypt(etoken, iv) : null;
 
   const octokit = token
     ? new Octokit({
@@ -50,13 +62,28 @@ export default async function HomePage({
 
   return (
     <>
+      <CookieComponent />
+
       <Container>
-        <Text my={15} ta="right">
-          Made by{' '}
-          <a href="https://github.com/pablodinella" target="_blank" rel="noreferrer noopener">
-            PabloDinella
-          </a>
-        </Text>
+        <Flex my={15} justify="flex-end">
+          <Text ta="right" mt={3} mr={10}>
+            Made by{' '}
+            <a href="https://github.com/pablodinella" target="_blank" rel="noreferrer noopener">
+              PabloDinella
+            </a>{' '}
+            (
+            <a
+              href="https://github.com/pablodinella/deps-matrix"
+              target="_blank"
+              rel="noreferrer noopener"
+            >
+              source
+            </a>
+            )
+          </Text>
+
+          <GithubStar />
+        </Flex>
 
         <Title mb={15}>deps-matrix</Title>
 
@@ -92,12 +119,19 @@ export default async function HomePage({
               (<a href="/">clear token</a>)
             </Text>
 
-            <Text mb={15} fs="italic">
+            <Text mb={5} fs="italic">
               <Text span fw={799}>
                 Tips:
               </Text>{' '}
               Click on any column to sort; Only showing dependencies present in more than one repo;
               Not showing devDependencies;
+            </Text>
+
+            <Text mb={15} fs="italic">
+              <Text span fw={799}>
+                Watch out:
+              </Text>{' '}
+              If you don&apos;t want to leak the dependencies versions, avoid sharing this URL.
             </Text>
           </>
         )}

@@ -4,6 +4,7 @@ import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-quartz.css';
 import semverCompare from 'semver-compare';
+import { rem } from '@mantine/core';
 
 export function Matrix({
   reposAndPackageJsons,
@@ -55,9 +56,9 @@ export function Matrix({
   return (
     <div
       className="ag-theme-quartz" // applying the grid theme
+      style={{ height: `calc(100vh - ${rem(40 * 2)})` }}
     >
       <AgGridReact
-        domLayout="autoHeight"
         sortingOrder={['desc']}
         rowData={rowData}
         columnDefs={[
