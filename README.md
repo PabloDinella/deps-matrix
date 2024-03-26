@@ -1,37 +1,15 @@
-# Mantine Next.js template
+# deps-matrix
 
-This is a template for [Next.js](https://nextjs.org/) app router + [Mantine](https://mantine.dev/).
-If you want to use pages router instead, see [next-pages-template](https://github.com/mantinedev/next-pages-template).
+[deps-matrix](https://deps-matrix.pablodinella.com/) lets you visualize and understand which repositories share the same dependencies, and what version each one uses.
 
-## Features
+If you work with microservices (deps-matrix only supports nodejs services at the moment), you might want to know how updated your services are, which needs an update, and what is the most recent version of some dependency.
 
-This template comes with the following features:
+Simply [install](https://github.com/apps/deps-matrix/installations/new) deps-matrix in any organization you have access to in order to visualize the dependency matrix.
 
-- [PostCSS](https://postcss.org/) with [mantine-postcss-preset](https://mantine.dev/styles/postcss-preset)
-- [TypeScript](https://www.typescriptlang.org/)
-- [Storybook](https://storybook.js.org/)
-- [Jest](https://jestjs.io/) setup with [React Testing Library](https://testing-library.com/docs/react-testing-library/intro)
-- ESLint setup with [eslint-config-mantine](https://github.com/mantinedev/eslint-config-mantine)
+Example:
 
-## npm scripts
+![screenshot](https://github.com/PabloDinella/deps-matrix/assets/2482730/f3319958-7980-4443-a1fb-3d69555350bc)
 
-### Build and dev scripts
+## Security
 
-- `dev` – start dev server
-- `build` – bundle application for production
-- `analyze` – analyzes application bundle with [@next/bundle-analyzer](https://www.npmjs.com/package/@next/bundle-analyzer)
-
-### Testing scripts
-
-- `typecheck` – checks TypeScript types
-- `lint` – runs ESLint
-- `prettier:check` – checks files with Prettier
-- `jest` – runs jest tests
-- `jest:watch` – starts jest watch
-- `test` – runs `jest`, `prettier:check`, `lint` and `typecheck` scripts
-
-### Other scripts
-
-- `storybook` – starts storybook dev server
-- `storybook:build` – build production storybook bundle to `storybook-static`
-- `prettier:write` – formats all files with Prettier
+This app is completely stateless, we don't store any tokens or other data. The GitHub App oauth token used to read the repos in your organization is encrypted with AES encryption, so the token present in the URL while you use deps-matrix can only be decrypted in our server, and cannot be used by anyone else to read your repositories.
