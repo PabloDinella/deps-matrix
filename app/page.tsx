@@ -79,17 +79,15 @@ export default async function HomePage({ searchParams }: { searchParams: PageQue
           Analyze the versions of dependencies across all repositories in your GitHub organization
         </Text>
 
-        {octokit && (
-          <Suspense
-            fallback={
-              <Flex justify="center">
-                <Loader />
-              </Flex>
-            }
-          >
-            <UserAndOrg octokit={octokit} org={org} code={code} token={token} />
-          </Suspense>
-        )}
+        <Suspense
+          fallback={
+            <Flex justify="center">
+              <Loader />
+            </Flex>
+          }
+        >
+          <UserAndOrg octokit={octokit} org={org} code={code} token={token} />
+        </Suspense>
       </Container>
 
       <Container fluid my={40}>

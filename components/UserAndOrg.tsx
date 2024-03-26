@@ -11,7 +11,7 @@ export async function UserAndOrg({
   code,
   org,
 }: {
-  octokit: Octokit;
+  octokit?: Octokit;
   token?: string;
   code?: string;
   org: string;
