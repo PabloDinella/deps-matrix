@@ -53,9 +53,11 @@ export async function UserAndOrg({
             <SelectOrg orgs={orgs?.data} selected={org} /> authenticated as {userData?.data.login} (
             <a href="/">clear token</a>)
           </Text>
+        </>
+      )}
 
-          <h1>{org}</h1>
-
+      {authenticated && org && (
+        <>
           <Text mb={5} fs="italic">
             <Text span fw={799}>
               Tips:

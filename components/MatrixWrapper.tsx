@@ -9,5 +9,5 @@ export async function MatrixWrapper({ octokit, org }: { octokit: Octokit; org: s
     return <Matrix reposAndPackageJsons={reposAndPackageJsons} />;
   }
 
-  return 'loading';
+  return null;
 }
